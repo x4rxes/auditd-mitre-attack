@@ -1,0 +1,14 @@
+# MITRE ATT&CK Rules
+# TA0004: Privilege Escalation
+# https://attack.mitre.org/tactics/TA0004/
+
+
+## T1055 - Process Injection
+### T1055.008 - Ptrace System Calls
+-a exit,always -F arch=b32 -S ptrace -k ATTACK_T1055_008
+-a exit,always -F arch=b64 -S ptrace -k ATTACK_T1055_008
+
+## T1548 - Abuse Elevation Control Mechanism
+### T1548.003 - Sudo and Sudo Caching
+-w /etc/sudoers -p wa -k ATTACK_T1548_003
+-w /etc/sudoers.d/ -p wa -k ATTACK_T1548_003

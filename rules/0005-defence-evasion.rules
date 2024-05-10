@@ -1,0 +1,40 @@
+# MITRE ATT&CK Rules
+# TA0005: Defense Evasion
+# https://attack.mitre.org/tactics/TA0005/
+
+
+## T1070 - Indicator Removal
+### T1070.006 - Timestomp
+-a exit,always -F arch=b64 -S adjtimex -S settimeofday -S clock_settime -k ATTACK_T1070_006
+-a exit,always -F arch=b32 -S adjtimex -S settimeofday -S clock_settime -k ATTACK_T1070_006
+
+## T1140 - Deobfuscate/Decode Files or Information
+-w /usr/bin/base64 -p x -k ATTACK_T1140
+-w /usr/bin/certutil -p x -k ATTACK_T1140
+##  * Fileless malware
+-a exit,always -F arch=b64 -S memfd_create -k ATTACK_T1140
+-a exit,always -F arch=b32 -S memfd_create -k ATTACK_T1140
+
+## T1553 - Subvert Trust Controls
+## T1553.004 - Install Root Certificate
+-w /usr/bin/update-ca-trust -p x -k ATTACK_T1553_004
+-w /etc/pki/ca-trust/ -p wa -k ATTACK_T1553_004
+
+## T1562 - Impair Defenses
+### T1562.001 - Disable or Modify Tools
+-w /usr/sbin/semanage -p x -k ATTACK_T1562_001
+-w /usr/sbin/setenforce -p x -k ATTACK_T1562_001
+-w /etc/selinux/ -p wa -k ATTACK_T1562_001
+-w /etc/security/ -p wa -k ATTACK_T1562_001
+-w /usr/bin/update-crypto-policies -p x -k ATTACK_T1562_001
+-w /etc/crypto-policies/ -p wa -k ATTACK_T1562_001
+
+### T1562.012 - Disable or Modify Linux Audit System
+-w /var/log/audit/ -p wa -k ATTACK_T1562_012
+-w /var/audit/ -p wa -k ATTACK_T1562_012
+-w /etc/audit/ -p wa -k ATTACK_T1562_012
+-w /etc/libaudit.conf -p wa -k ATTACK_T1562_012
+-w /etc/audisp/ -p wa -k ATTACK_T1562_012
+-w /usr/sbin/auditctl -p x -k ATTACK_T1562_012
+-w /usr/sbin/auditd -p x -k ATTACK_T1562_012
+-w /usr/sbin/augenrules -p x -k ATTACK_T1562_012

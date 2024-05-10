@@ -1,0 +1,18 @@
+# MITRE ATT&CK Rules
+# TA0002: Execution
+# https://attack.mitre.org/tactics/TA0002/
+
+
+## T1059 - Command and Scripting Interpreter
+##  * Denied file operations by non-system users
+-a exit,always -F arch=b64 -S creat,open,openat,open_by_handle_at,truncate,ftruncate,chmod,rename,renameat,renameat2,setxattr,lsetxattr,removexattr,lremovexattr -F exit=-EACCES -F auid>=1000 -F auid!=-1 -k ATTACK_T1059
+-a exit,always -F arch=b64 -S creat,open,openat,open_by_handle_at,truncate,ftruncate,chmod,rename,renameat,renameat2,setxattr,lsetxattr,removexattr,lremovexattr -F exit=-EPERM -F auid>=1000 -F auid!=-1 -k ATTACK_T1059
+-a exit,always -F arch=b32 -S creat,open,openat,open_by_handle_at,truncate,ftruncate,chmod,rename,renameat,renameat2,setxattr,lsetxattr,removexattr,lremovexattr -F exit=-EACCES -F auid>=1000 -F auid!=-1 -k ATTACK_T1059
+-a exit,always -F arch=b32 -S creat,open,openat,open_by_handle_at,truncate,ftruncate,chmod,rename,renameat,renameat2,setxattr,lsetxattr,removexattr,lremovexattr -F exit=-EPERM -F auid>=1000 -F auid!=-1 -k ATTACK_T1059
+
+### T1059.004 - Unix Shell
+###  * Remote shell
+-a exit,always -F arch=b64 -F exe=/bin/bash -F success=1 -S connect -k ATTACK_T1059_004
+-a exit,always -F arch=b64 -F exe=/usr/bin/bash -F success=1 -S connect -k ATTACK_T1059_004
+-a exit,always -F arch=b32 -F exe=/bin/bash -F success=1 -S connect -k ATTACK_T1059_004
+-a exit,always -F arch=b32 -F exe=/usr/bin/bash -F success=1 -S connect -k ATTACK_T1059_004
